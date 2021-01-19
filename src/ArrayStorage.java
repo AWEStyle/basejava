@@ -1,3 +1,6 @@
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Array based storage for Resumes
  */
@@ -6,6 +9,7 @@ public class ArrayStorage {
     int size = 0;
 
     void clear() {
+        Arrays.fill(storage, null);
     }
 
     void save(Resume r) {
@@ -18,6 +22,7 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
+
     }
 
     /**
@@ -29,6 +34,6 @@ public class ArrayStorage {
     }
 
     int size() {
-        return 0;
+        return size;
     }
 }
