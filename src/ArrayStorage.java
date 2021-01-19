@@ -7,8 +7,10 @@ public class ArrayStorage {
     Resume[] storage = new Resume[10];
     int size = 0;
     int index=0;
+
     void clear() {
         Arrays.fill(storage, null);
+        size=0;
     }
 
     void save(Resume r) {
