@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class ArrayStorage {
     Resume[] storage = new Resume[10];
     int size = 0;
-
+    int index=0;
     void clear() {
         Arrays.fill(storage, null);
     }
@@ -22,8 +22,8 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-
-        for (int i = 0; i < size; i++) {
+        index = Integer.parseInt(uuid);
+        for (int i = index; i < size; i++) {
             storage[i] = storage[i + 1];
         }
         size--;
