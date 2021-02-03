@@ -18,7 +18,7 @@ public abstract class AbstractArrayStorageTest {
     private static final String UUID_3 = "uuid2";
     private static final String UUID_4 = "uuid4";
     private static final String UUID_5 = "resume";
-
+    private static int sizemass = 10000;
     public AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
     }
@@ -71,26 +71,26 @@ public abstract class AbstractArrayStorageTest {
     @Test
     public void getAll() throws Exception {
         storage.getAll();
-        Assert.assertEquals(3,storage.size());
+        Assert.assertEquals(3, storage.size());
     }
 
     @Test
     public void size() throws Exception {
         Assert.assertEquals(3, storage.size());
     }
-    @Test (expected = StorageException.class)
+
+    @Test(expected = StorageException.class)
     public void overFull() throws Exception {
         // проверить наличие ошибок на переполнение
-        for(int i = 3; i < 10000;i++){
-            try{
-                Resume r = new Resume(UUID_5+i);
+        for (int i = 3; i < sizemass; i++) {
+            try {
+                Resume r = new Resume(UUID_5 + i);
                 storage.save(r);
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 Assert.fail("Переполнение массива произошло раньше времени");
             }
         }
-        Assert.assertEquals(10000,storage.size());
+        Assert.assertEquals(10000, storage.size());
         Resume r = new Resume(UUID_4);
         storage.save(r);
     }
