@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import static com.urise.webapp.storage.AbstractArrayStorage.STORAGE_SIZE;
 import static org.junit.Assert.*;
 
 public abstract class AbstractArrayStorageTest {
@@ -19,7 +20,7 @@ public abstract class AbstractArrayStorageTest {
     private static final String UUID_3 = "uuid2";
     private static final String UUID_4 = "uuid4";
     private static final String UUID_5 = "resume";
-    private static final int sizemass = 10000;
+
 
     public AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
@@ -83,8 +84,7 @@ public abstract class AbstractArrayStorageTest {
 
     @Test(expected = StorageException.class)
     public void overFull() throws Exception {
-        // проверить наличие ошибок на переполнение
-        for (int i = 3; i < sizemass; i++) {
+        for (int i = 3; i < STORAGE_SIZE; i++) {
             try {
                 Resume r = new Resume(UUID_5 + i);
                 storage.save(r);
@@ -92,7 +92,7 @@ public abstract class AbstractArrayStorageTest {
                 Assert.fail("Переполнение массива произошло раньше времени");
             }
         }
-        Assert.assertEquals(10000, storage.size());
+        Assert.assertEquals(STORAGE_SIZE, storage.size());
         Resume r = new Resume(UUID_4);
         storage.save(r);
     }
