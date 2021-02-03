@@ -1,5 +1,7 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.NotExistStorageException;
+import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 import org.junit.Assert;
 import org.junit.Before;
@@ -76,7 +78,7 @@ public abstract class AbstractArrayStorageTest {
     public void size() throws Exception {
         Assert.assertEquals(3, storage.size());
     }
-    @Test
+    @Test (expected = StorageException.class)
     public void overFull() throws Exception {
         // проверить наличие ошибок на переполнение
         for(int i = 3; i < 10000;i++){
