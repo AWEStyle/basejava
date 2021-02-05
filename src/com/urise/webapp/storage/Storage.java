@@ -4,9 +4,7 @@ import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
 
-/**
- * Array based storage for Resumes
- */
+
 public interface Storage {
 
     void clear();

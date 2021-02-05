@@ -10,50 +10,42 @@ import java.util.Arrays;
 /**
  * Array based storage for Resumes
  */
-public abstract class AbstractArrayStorage implements Storage {
+public abstract class AbstractArrayStorage extends AbstractStorage {
     protected static final int STORAGE_SIZE = 10000;
     protected Resume[] storage = new Resume[STORAGE_SIZE];
     protected int size = 0;
+
 
     public void clear() {
         Arrays.fill(storage, null);
         size = 0;
     }
 
-    public void update(Resume r) {
-        int a = checkResume(r.getUuid());
-        if (a<0) {
-            throw new NotExistStorageException(r.getUuid());
-        }
-        storage[a] = r;
+    @Override
+    public void updateResume(Object searchKey, Resume r) {
+        storage[(Integer) searchKey] = r;
     }
 
-    public void save(Resume r) {
+    protected boolean isExist(Object searchKey) {
+
+        return (Integer) searchKey > -1;
+    }
+
+    public void resumeSave(Resume r, Object searchKey) {
         if (size >= STORAGE_SIZE) {
-            throw new StorageException("Массив переполнен",r.getUuid());
+            throw new StorageException("Массив переполнен", r.getUuid());
         }
-        int a = checkResume(r.getUuid());
-        if (a>=0) {
-            throw new ExistStorageException(r.getUuid());
-        }
-        resumeSave(r,-a);
+        resumeArraySave(r, -(Integer) searchKey);
         size++;
     }
 
-    public Resume get(String uuid) {
-        int a = checkResume(uuid);
-        if (a<0) {
-            throw new NotExistStorageException(uuid);
-        }
-        return storage[a];
+    @Override
+    public Resume getResume(Object searchKey) {
+        return storage[(Integer) searchKey];
     }
 
-    public void delete(String uuid) {
-        int a = checkResume(uuid);
-        if (a<0) {
-            throw new NotExistStorageException(uuid);
-        }
-        for (int i = a; i < size - 1; i++) {
+    public void deleteResume(Object searchKey) {
+        for (int i = (Integer)searchKey; i < size - 1; i++) {
             storage[i] = storage[i + 1];
         }
         storage[size - 1] = null;
@@ -68,6 +60,8 @@ public abstract class AbstractArrayStorage implements Storage {
         return size;
     }
 
-    protected abstract int checkResume(String uuid);
-    protected abstract void resumeSave(Resume r, int a);
+    protected abstract Integer checkResume(String uuid);
+
+    protected abstract void resumeArraySave(Resume r, Integer searchKey);
+
 }

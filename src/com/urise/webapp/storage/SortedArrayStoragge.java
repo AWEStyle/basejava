@@ -10,13 +10,13 @@ public class SortedArrayStoragge extends AbstractArrayStorage {
 
 
     @Override
-    protected int checkResume(String uuid) {
+    protected Integer checkResume(String uuid) {
         Resume searchKey = new Resume(uuid);
         return Arrays.binarySearch(storage, 0, size, searchKey);
     }
 
     @Override
-    protected void resumeSave(Resume r, int a) {
+    protected void resumeArraySave(Resume r, Integer a) {
         //вставить в элемент позицию а -1, потому что бинарный поиск возвращает позицию index -1
         // Сдвигаем вправо часть массива с позиции а-1,чтобы освободить место для нового элемента
         arraycopy(storage, a - 1, storage, a, size - (a - 1));
