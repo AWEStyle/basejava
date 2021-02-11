@@ -24,7 +24,5 @@ public class ArrayStorage extends AbstractArrayStorage {
         storage[size] = r;
     }
 
-    public int size() {
-        return size;
-    }
+
 }

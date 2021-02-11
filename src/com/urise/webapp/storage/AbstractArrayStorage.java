@@ -60,6 +60,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return size;
     }
 
+
     protected abstract Integer checkResume(String uuid);
 
     protected abstract void resumeArraySave(Resume r, Integer searchKey);

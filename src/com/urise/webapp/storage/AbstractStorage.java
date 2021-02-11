@@ -7,21 +7,15 @@ import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
 
-/**
- * Array based storage for Resumes
- */
-public abstract class AbstractStorage implements Storage {
-    protected static final int STORAGE_SIZE = 10000;
-    protected Resume[] storage = new Resume[STORAGE_SIZE];
-    protected int size = 0;
 
+public abstract class AbstractStorage implements Storage {
 
     public void update(Resume r) {
         Object searchKey = checkResume(r.getUuid());
-        if (searchKey==null) {
+        if (!isExist(searchKey)) {
             throw new NotExistStorageException(r.getUuid());
         }
-        //updateResume(r);
+        updateResume(searchKey,r);
     }
 
     public void save(Resume r) {
@@ -48,13 +42,8 @@ public abstract class AbstractStorage implements Storage {
         deleteResume(searchKey);
     }
 
-    public Resume[] getAll() {
-        return Arrays.copyOfRange(storage, 0, size);
-    }
 
-    public int size() {
-        return size;
-    }
+
 
     protected abstract void updateResume(Object searchKey, Resume r);
     protected abstract Object checkResume(String uuid);
