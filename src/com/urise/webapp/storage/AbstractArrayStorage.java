@@ -6,6 +6,7 @@ import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Array based storage for Resumes
@@ -22,7 +23,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void updateResume(Object searchKey, Resume r) {
+    public void doUpdate(Object searchKey, Resume r) {
         storage[(Integer) searchKey] = r;
     }
 
@@ -31,7 +32,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return (Integer) searchKey > -1;
     }
 
-    public void resumeSave(Resume r, Object searchKey) {
+    public void doSave(Resume r, Object searchKey) {
         if (size >= STORAGE_SIZE) {
             throw new StorageException("Массив переполнен", r.getUuid());
         }
@@ -40,11 +41,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume getResume(Object searchKey) {
+    public Resume doGet(Object searchKey) {
         return storage[(Integer) searchKey];
     }
 
-    public void deleteResume(Object searchKey) {
+    public void doDelete(Object searchKey) {
         for (int i = (Integer)searchKey; i < size - 1; i++) {
             storage[i] = storage[i + 1];
         }
@@ -52,8 +53,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size--;
     }
 
-    public Resume[] getAll() {
-        return Arrays.copyOfRange(storage, 0, size);
+    public List<Resume> getAllResume() {
+        return Arrays.asList(Arrays.copyOfRange(storage, 0, size));
     }
 
     public int size() {
@@ -61,7 +62,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
 
-    protected abstract Integer checkResume(String uuid);
+    protected abstract Integer getSearchKey(String uuid);
 
     protected abstract void resumeArraySave(Resume r, Integer searchKey);
 

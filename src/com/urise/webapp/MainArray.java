@@ -6,13 +6,15 @@ import com.urise.webapp.storage.SortedArrayStoragge;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Interactive test for com.urise.webapp.storage.ArrayStorage implementation
  * (just run, no need to understand)
  */
 public class MainArray {
-    private final static SortedArrayStoragge Storage = new SortedArrayStoragge();
+    private final static SortedArrayStoragge storage = new SortedArrayStoragge();
 
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -33,27 +35,27 @@ public class MainArray {
                     printAll();
                     break;
                 case "size":
-                    System.out.println(Storage.size());
+                    System.out.println(storage.size());
                     break;
                 case "update":
                     r = new Resume(uuid);
-                    Storage.update(r);
+                    storage.update(r);
                     printAll();
                     break;
                 case "save":
                     r = new Resume(uuid);
-                    Storage.save(r);
+                    storage.save(r);
                     printAll();
                     break;
                 case "delete":
-                    Storage.delete(uuid);
+                    storage.delete(uuid);
                     printAll();
                     break;
                 case "get":
-                    System.out.println(Storage.get(uuid));
+                    System.out.println(storage.get(uuid));
                     break;
                 case "clear":
-                    Storage.clear();
+                    storage.clear();
                     printAll();
                     break;
                 case "exit":
@@ -66,7 +68,7 @@ public class MainArray {
     }
 
     static void printAll() {
-        Resume[] all = Storage.getAll();
+        Resume[] all = storage.getAllSorted().toArray(new Resume[0]);
         System.out.println("----------------------------");
         if (all.length == 0) {
             System.out.println("Empty");
