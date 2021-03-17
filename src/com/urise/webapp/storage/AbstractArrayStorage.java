@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Array based storage for Resumes
  */
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected static final int STORAGE_SIZE = 10000;
     protected Resume[] storage = new Resume[STORAGE_SIZE];
     protected int size = 0;
@@ -23,16 +23,16 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void doUpdate(Object searchKey, Resume r) {
+    public void doUpdate(Integer searchKey, Resume r) {
         storage[(Integer) searchKey] = r;
     }
 
-    protected boolean isExist(Object searchKey) {
+    protected boolean isExist(Integer searchKey) {
 
-        return (Integer) searchKey > -1;
+        return searchKey > -1;
     }
 
-    public void doSave(Resume r, Object searchKey) {
+    public void doSave(Resume r, Integer searchKey) {
         if (size >= STORAGE_SIZE) {
             throw new StorageException("Массив переполнен", r.getUuid());
         }
@@ -41,12 +41,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume doGet(Object searchKey) {
-        return storage[(Integer) searchKey];
+    public Resume doGet(Integer searchKey) {
+        return storage[searchKey];
     }
 
-    public void doDelete(Object searchKey) {
-        for (int i = (Integer)searchKey; i < size - 1; i++) {
+    public void doDelete(Integer searchKey) {
+        for (int i = searchKey; i < size - 1; i++) {
             storage[i] = storage[i + 1];
         }
         storage[size - 1] = null;

@@ -7,12 +7,15 @@ import com.urise.webapp.model.Resume;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 
-public abstract class AbstractStorage implements Storage {
+public abstract class AbstractStorage<SK> implements Storage {
+    private static final Logger LOG = Logger.getLogger(AbstractStorage.class.getName());
 
     public void update(Resume r) {
-        Object searchKey = getSearchKey(r.getUuid());
+        LOG.info("Update" + r);
+        SK searchKey = getSearchKey(r.getUuid());
         if (!isExist(searchKey)) {
             throw new NotExistStorageException(r.getUuid());
         }
@@ -20,7 +23,8 @@ public abstract class AbstractStorage implements Storage {
     }
 
     public void save(Resume r) {
-        Object searchKey = getSearchKey(r.getUuid());
+        LOG.info("Save" + r);
+        SK searchKey = getSearchKey(r.getUuid());
         if (isExist(searchKey)) {
             throw new ExistStorageException(r.getUuid());
         }
@@ -28,7 +32,8 @@ public abstract class AbstractStorage implements Storage {
     }
 
     public Resume get(String uuid) {
-        Object searchKey = getSearchKey(uuid);
+        LOG.info("Get" + uuid);
+        SK searchKey = getSearchKey(uuid);
         if (!isExist(searchKey)) {
             throw new NotExistStorageException(uuid);
         }
@@ -36,7 +41,8 @@ public abstract class AbstractStorage implements Storage {
     }
 
     public void delete(String uuid) {
-        Object searchKey = getSearchKey(uuid);
+        LOG.info("Delete" + uuid);
+        SK searchKey = getSearchKey(uuid);
         if (!isExist(searchKey)) {
             throw new NotExistStorageException(uuid);
         }
@@ -45,6 +51,7 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
+        LOG.info("getAllSorted");
         List<Resume> list = getAllResume();
         Collections.sort(list);
         return list;
@@ -52,11 +59,11 @@ public abstract class AbstractStorage implements Storage {
 
 
 
-    protected abstract void doUpdate(Object searchKey, Resume r);
-    protected abstract Object getSearchKey(String uuid);
-    protected abstract void doSave(Resume r, Object searchKey);
-    protected abstract boolean isExist(Object searchKey);
-    protected abstract Resume doGet(Object searchKey);
-    protected abstract void doDelete(Object searchKey);
+    protected abstract void doUpdate(SK searchKey, Resume r);
+    protected abstract SK getSearchKey(String uuid);
+    protected abstract void doSave(Resume r, SK searchKey);
+    protected abstract boolean isExist(SK searchKey);
+    protected abstract Resume doGet(SK searchKey);
+    protected abstract void doDelete(SK searchKey);
     protected abstract List<Resume> getAllResume();
 }
