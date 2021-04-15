@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SectionList extends AbstractSection {
+    private static final long serialVersionUID =1L;
+
     List<String> content = new ArrayList<>();
 
     public List<String> getContent() {
