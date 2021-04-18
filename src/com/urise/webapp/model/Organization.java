@@ -1,15 +1,24 @@
 package com.urise.webapp.model;
 
+import com.urise.webapp.util.LocalDateAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
-public class Organization extends SectionOrg {
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Organization implements Serializable {
     private Link link;
     private List<Item> items;
 
     public Link getLink() {
         return link;
+    }
+
+    public Organization() {
     }
 
     public void setLink(Link link) {
@@ -32,11 +41,17 @@ public class Organization extends SectionOrg {
                 '}';
     }
 
-    public static class Item extends Organization{
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class Item extends Organization {
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
         public LocalDate dateStart;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
         public LocalDate dateEnd;
         public String position;
         public String description;
+
+        public Item() {
+        }
 
         public Item(LocalDate dateStart, LocalDate dateEnd, String position, String description) {
             this.dateStart = dateStart;

@@ -8,6 +8,9 @@ public class SectionList extends AbstractSection {
 
     List<String> content = new ArrayList<>();
 
+    public SectionList() {
+    }
+
     public List<String> getContent() {
         return content;
     }
